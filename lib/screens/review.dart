@@ -6,7 +6,7 @@ import 'package:groq_sdk/groq_sdk.dart';
 
 class Review extends StatefulWidget {
   final List<wrongAns> wrongAnswers;
-  final String totalTime; // Add totalTime parameter
+  final String totalTime; // Used for the AI response
   
   const Review({super.key, required this.wrongAnswers, required this.totalTime});
 
@@ -18,7 +18,8 @@ class _ReviewScreenState extends State<Review> {
   int _currentIndex = 0;
   String _aiResponse = '';
 
- 
+// go between the questions in the review screen
+  
   void _nextQuestion() {
     setState(() {
       if (_currentIndex < widget.wrongAnswers.length - 1) {
@@ -35,11 +36,9 @@ class _ReviewScreenState extends State<Review> {
     });
   }
 
-
-  // final _groq = Groq(const String.fromEnvironment('groqApiKey'), model: GroqModel.llama370b8192);
-
-  @override
+  // in the review screen displays Question and the wrong answer and the ai response to why that answer is wrong
   
+  @override
   Widget build(BuildContext context) {
     var answer = widget.wrongAnswers[_currentIndex];
     
@@ -76,7 +75,6 @@ class _ReviewScreenState extends State<Review> {
                       ),
                       const SizedBox(height:40.0),
                       Text(
-                        // 'AI Response: $_aiResponse',
                         'AI Response: $_aiResponse\nTotal Time: ${widget.totalTime}', 
                         style: const TextStyle(fontSize: 30.0, color: Colors.green),
                       ),
