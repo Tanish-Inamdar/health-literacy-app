@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+
+// Shows the result panel
+// which is a chart showing you how many questions you got write or wrong
+
 class Results extends StatelessWidget {
   const Results({super.key, required this.result, required this.questionLength, required this.ReviewCall});
   final int result;
