@@ -13,14 +13,15 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 //stateful widget with functions and variables in it 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, });
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
+
+  // The questions that are asked
   List<Question> _questions = [
     Question(id: "1", 
     title: "Which is an example of health literacy? (Choose all that apply)", 
@@ -56,9 +57,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // getTotalTimeFromAI(wrongans).then((value) {
-    //   setState(() {
-    //     totalTime = value;
   }
   
   //function to disply next question
@@ -79,16 +77,16 @@ class _HomeScreenState extends State<HomeScreen> {
         AlreadyPressed =  false;
     });
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      // shows error when no choice is clicked
+       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: const Text("Please select an answer choice"),
-        // behavior: SnackBarBehavior.floating, 
-        // margin: EdgeInsets.symmetric(vertical: 20.0) 
         
         ));
     }
     }
   }
 
+  // checks if the answer is wrong and if it is adds it the wrongans array
   void checkAnswer(bool value) { 
     if(AlreadyPressed){
       return;
@@ -96,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen> {
       if(value == true){
       score++;
       } else {
-      //wrongans.add(wrongAns(id: _questions[index].id, title: _questions[index].options.keys.toList().firstWhere((k) => _questions[index].options[k] == value)));
       wrongans.add(wrongAns( 
       title: _questions[index].title, 
       option: _questions[index].options.keys.toList().firstWhere((k) => _questions[index].options[k] == value, 
@@ -108,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
         AlreadyPressed = true;
       });
 
-      // Call AI function after adding a new wrong answer
+      // calls AI function(og checking how much time it took now just calling the response)
       getTotalTimeFromAI(wrongans).then((value) {
         setState(() {
           totalTime = value; // Update totalTime with AI response
@@ -127,6 +124,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // checking if stuff is being added to wrongans array
   String getWrongAnswerDisplay() {
     if (wrongans.isNotEmpty) {
       var wrongAnswer = wrongans[0];
@@ -135,6 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
       return 'No wrong answers yet.';
     }
   }
+ 
+  // actual homescreen and questions
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -158,6 +158,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const Divider(color: neut),
               //adds space for options
               const SizedBox(height: 25.0),
+              // colors the options green is true; red if false
               for(int i =0; i < _questions[index].options.length; i++)
                 GestureDetector(
                   onTap: () { checkAnswer(_questions[index].options.values.toList()[i]);
@@ -174,6 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
         ),
         ),
+
+      // next question button
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child:Button(nextQuestion: nextQuestion,),
