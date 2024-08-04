@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../screens/constants.dart';
 
+// next question button
 class Button extends StatelessWidget {
   const Button({super.key, required this.nextQuestion});
   final VoidCallback nextQuestion;
